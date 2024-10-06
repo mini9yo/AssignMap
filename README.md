@@ -55,6 +55,18 @@ In today's fast-paced educational environment, students and teachers both often 
 ## Example Files
 Users can find example assignment description text files in the folder named `example_files`, located directly under the root directory. These files can be used for a better understanding of how to use the application. All copyrights of the text files belong to SFU professors.
 
+## Challenges We ran into
+
+Our team ran into issues mainly with integrating what we coded in the backend with what we developed for the front.
+These issues lead to us having to scrap the entire database setup that was intializeed in the backend operations.
+Mainly our issues just stemmed from the lack of experience in webdesign compared to other aspects of the project.
+
+## What We Learned
+Basically a very simple project can end up being much more time consuming than expected. As this is Kaiden's first hackathon that was a big shock to him and specifically Kaylee learned quite bit more about webdessign and frontend development. As well our team learned how to implement and develop an app using OpenAI API.
+
+## What we are proud of
+We are proud that we have a completed project that can be further developed and have a stronger implementation. We are also proud that we competed in this hackathon because we had a great time and learned a lot. As well we are proud of cohesive teamwork throughout the process.
+
 ## What's Next?
 
 Our team is passionate about continuing to develop AssignMap beyond the StormHacks 2024 hackathon. We envision a robust user management system where users can:
