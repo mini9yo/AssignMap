@@ -137,7 +137,7 @@ def test_db():
     except Exception as e:
         return str(e), 500
 
->>>>>>>>> Temporary merge branch 2
+
 
 # Set your OpenAI API key
 client=OpenAI(
