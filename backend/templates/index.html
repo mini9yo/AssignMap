@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Assignment Breakdown App</title>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <h1>Assignment Breakdown App</h1>
+    </header>
+    <main>
+        <div class="welcome-message">
+            <h2 class="spaced-text">Organize your tasks and manage your<br>assignments effectively!</h2>
+            <p class="spaced-text">Welcome! Start by clicking the button below to<br>generate your subtask planner. Follow the steps<br>to enter your assignment details and keep track<br>of your progress.</p>
+            <button id="generate-button">Generate Subtask Planner!</button>
+        </div>
+    </main>
+    <script>
+        const generateButton = document.getElementById('generate-button');
+
+        if (generateButton) {
+            generateButton.addEventListener('click', () => {
+                window.location.href = '/user_type';
+            });
+        }
+    </script>
+</body>
+</html>

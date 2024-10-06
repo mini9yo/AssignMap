@@ -1,5 +1,4 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask import Flask, request, jsonify, render_template
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -8,8 +7,6 @@ import json
 # Load environment variables from the .env file
 load_dotenv()
 app = Flask(__name__)
-CORS(app, resources={r"/generate": {"origins": "http://localhost:8000"}})
-  # Enable Cross-Origin Resource Sharing
 
 # Set your OpenAI API key
 client=OpenAI(
@@ -17,9 +14,28 @@ client=OpenAI(
     organization= os.environ.get("ORG_KEY"),
     project= os.environ.get("PROJ_KEY"))
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/user_type')
+def user_type():
+    return render_template('user_type.html')
+
+@app.route('/assignment_input')
+def assignment_input():
+    return render_template('assignment_input.html')
+
+@app.route('/file_upload')
+def file_upload():
+    return render_template('file_upload.html')
+
+@app.route('/date_input')
+def date_input():
+    return render_template('date_input.html')
+
 # Route to generate subtasks based on user input
 @app.route('/generate', methods=['POST'])
-
 def generate():
     data = request.json  # Get the incoming JSON data
     print("Received data:", data)  # Debugging output
