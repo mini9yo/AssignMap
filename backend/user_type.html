@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>User Information</title>
+    <style>
+        .grey-box {
+            background-color: grey;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+        }
+        .input-field {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <h1>User Information</h1>
+    </header>
+    <main>
+        <div class="form-container">
+            <div class="grey-box">
+                <label for="email">Email:</label>
+                <input type="email" id="email" class="input-field" required>
+            </div>
+            <div class="grey-box">
+                <label for="name">Name:</label>
+                <input type="text" id="name" class="input-field" required>
+            </div>
+            <div class="grey-box">
+                <label for="password">Password:</label>
+                <input type="password" id="password" class="input-field" required>
+            </div>
+            <div class="button-group">
+                <button id="teacher-button">Teacher</button>
+                <button id="student-button">Student</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <button id="back-button">Back</button>
+        <button id="next-button">Next</button>
+    </footer>
+    <script src="../javascript/user_info.js"></script>
+</body>
+</html>
