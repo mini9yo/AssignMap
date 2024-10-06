@@ -1,6 +1,3 @@
-Here’s a complete README file for your project, formatted for clarity and usability:
-
-```markdown
 # StormHacks2024
 
 ## Overview
