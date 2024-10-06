@@ -4,11 +4,6 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import json
 
-
-# Load environment variables from the .env file
-load_dotenv()
-app = Flask(__name__) 
-CORS(app, resources={r"/generate": {"origins": "http://localhost:8000"}})
   # Enable Cross-Origin Resource Sharing
 
 from flask_sqlalchemy import SQLAlchemy
@@ -19,7 +14,7 @@ from database import create_user, check_password_hash, get_user_by_email, db
 # Load environment variables from the .env file
 load_dotenv()
 app = Flask(__name__)
-CORS(app)  # Enable Cross-Origin Resource Sharing
+  # Enable Cross-Origin Resource Sharing
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'  # Use in-memory SQLite database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')

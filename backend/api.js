@@ -1,7 +1,7 @@
 // Function to send data to the backend
 async function sendData(data) {
     try {
-        const response = await fetch('http://localhost:5000/generate', {
+        const response = await fetch('http://127.0.0.1:5000/generate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json', // Specify content type
