@@ -4,14 +4,14 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 import json
-<<<<<<<<< Temporary merge branch 1
+
 
 # Load environment variables from the .env file
 load_dotenv()
 app = Flask(__name__)
 CORS(app, resources={r"/generate": {"origins": "http://localhost:8000"}})
   # Enable Cross-Origin Resource Sharing
-=========
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
