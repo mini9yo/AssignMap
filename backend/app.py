@@ -1,9 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 import json
+
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -11,12 +12,44 @@ app = Flask(__name__)
 CORS(app)  # Enable Cross-Origin Resource Sharing
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client=OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY"),
+    organization= os.environ.get("ORG_KEY"),
+    project= os.environ.get("PROJ_KEY"))
 
 # Route to generate subtasks based on user input
-@app.route('/generate-subtasks', methods=['POST'])
-def generate_subtasks():
+@app.route('/generate', methods=['POST'])
+
+def generate():
     data = request.json
+    
+    if not data or 'user_type' not in data:
+        return jsonify({'error': 'Missing required field: user_type'}), 400
+    
+    user_type = data.get('user_type')
+    
+    if user_type not in ['teacher', 'student']:
+        return jsonify({'error': 'Invalid user_type. Must be "teacher" or "student"'}), 400
+    
+    if 'file_path' not in data:
+        return jsonify({'error': 'Missing required field: file_path'}), 400
+    
+    file_path = data.get('file_path')
+    file_content = data.get('user_type')
+
+    
+    if user_type == 'teacher':
+        return generate_rubric(file_content)
+    elif user_type == 'student':
+        return generate_subtasks(file_content)
+
+
+def generate_subtasks(data):
+    data = request.json
+    
+    if not data or 'title' not in data or 'num_subtasks' not in data or 'assignment_description' not in data:
+        return jsonify({'error': 'Missing required fields: title, num_subtasks, or assignment_description'}), 400
+    
     title = data.get('title')  # Get the assignment title
     num_subtasks = data.get('num_subtasks')  # Get the number of subtasks
     assignment_description = data.get('assignment_description')  # Get the assignment description
@@ -52,20 +85,137 @@ def generate_subtasks():
 
     try:
         # Call OpenAI API
-        response = openai.Completion.create(
-            model='text-davinci-003',
-            prompt=prompt,
+        response = client.chat.completions.create(
+            model='gpt-3.5-turbo',
+            messages=[{"role": "user", "content": prompt}],
             max_tokens=150
         )
 
         # Extract and parse the JSON output from the API response
-        json_output = response.choices[0].text.strip()
+        json_output = response.choices[0].message.content.strip()  
         tasks_data = json.loads(json_output)
 
         # Return the parsed JSON as a response to the frontend
         return jsonify(tasks_data)
     except Exception as e:
         return jsonify({'error': str(e)}), 500  # Handle errors
+    
+    
+def generate_rubric(data):
+    data = request.json
+    
+    if not data or 'title' not in data or 'num_criteria' not in data or 'assignment_description' not in data:
+        return jsonify({'error': 'Missing required fields: title, num_criteria, or task_description'}), 400
+    
+    title = data.get('title')  # Get the task title
+    num_criteria = data.get('num_criteria')  # Get the number of criteria
+    task_description = data.get('assignment_description')  # Get the task description
+    user_defined_criteria = data.get('criteria', [])  # Get user-defined criteria if provided
+
+    # Construct the prompt for OpenAI API
+    if user_defined_criteria:
+        criteria_list = ', '.join(user_defined_criteria)
+        prompt = (
+            f"Please generate a rubric with the following criteria for the task named '{title}': {criteria_list}. "
+            "Format your response in JSON as follows:\n"
+            "{\n"
+            "    \"rubric\": [\n"
+            "        {\n"
+            "            \"criterion\": \"Criterion 1\",\n"
+            "            \"description\": \"Description of Criterion 1\",\n"
+            "            \"points\": \"Points for Criterion 1\"\n"
+            "        },\n"
+            "        {\n"
+            "            \"criterion\": \"Criterion 2\",\n"
+            "            \"description\": \"Description of Criterion 2\",\n"
+            "            \"points\": \"Points for Criterion 2\"\n"
+            "        }\n"
+            "    ]\n"
+            "}\n"
+            "For example, if the user requests 3 criteria, the output should look like this:\n"
+            "{\n"
+            "    \"rubric\": [\n"
+            "        {\n"
+            "            \"criterion\": \"Clarity\",\n"
+            "            \"description\": \"The task is clearly defined and easy to understand.\",\n"
+            "            \"points\": \"10\"\n"
+            "        },\n"
+            "        {\n"
+            "            \"criterion\": \"Completeness\",\n"
+            "            \"description\": \"All aspects of the task are covered.\",\n"
+            "            \"points\": \"10\"\n"
+            "        },\n"
+            "        {\n"
+            "            \"criterion\": \"Accuracy\",\n"
+            "            \"description\": \"The task is completed accurately.\",\n"
+            "            \"points\": \"10\"\n"
+            "        }\n"
+            "    ]\n"
+            "}\n"
+            "Only provide the JSON output, without any additional text, no explanations, or other sentences.\n"
+            f"The task description is as follows: {task_description}\n"
+        )
+    else:
+        prompt = (
+            f"Please generate a rubric with {num_criteria} criteria for the task named '{title}'. "
+            "Format your response in JSON as follows:\n"
+            "{\n"
+            "    \"rubric\": [\n"
+            "        {\n"
+            "            \"criterion\": \"Criterion 1\",\n"
+            "            \"description\": \"Description of Criterion 1\",\n"
+            "            \"points\": \"Points for Criterion 1\"\n"
+            "        },\n"
+            "        {\n"
+            "            \"criterion\": \"Criterion 2\",\n"
+            "            \"description\": \"Description of Criterion 2\",\n"
+            "            \"points\": \"Points for Criterion 2\"\n"
+            "        }\n"
+            "    ]\n"
+            "}\n"
+            "For example, if the user requests 3 criteria, the output should look like this:\n"
+            "{\n"
+            "    \"rubric\": [\n"
+            "        {\n"
+            "            \"criterion\": \"Clarity\",\n"
+            "            \"description\": \"The task is clearly defined and easy to understand.\",\n"
+            "            \"points\": \"10\"\n"
+            "        },\n"
+            "        {\n"
+            "            \"criterion\": \"Completeness\",\n"
+            "            \"description\": \"All aspects of the task are covered.\",\n"
+            "            \"points\": \"10\"\n"
+            "        },\n"
+            "        {\n"
+            "            \"criterion\": \"Accuracy\",\n"
+            "            \"description\": \"The task is completed accurately.\",\n"
+            "            \"points\": \"10\"\n"
+            "        }\n"
+            "    ]\n"
+            "}\n"
+            "Only provide the JSON output, without any additional text, no explanations, or other sentences.\n"
+            f"The task description is as follows: {task_description}\n"
+        )
+
+    try:
+        # Call OpenAI API
+        response = client.chat.completions.create(
+            model='gpt-3.5-turbo',
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=150
+        )
+
+        # Extract and parse the JSON output from the API response
+        json_output = response.choices[0].message.content.strip()  
+        rubric_data = json.loads(json_output)
+
+        # Return the parsed JSON as a response to the frontend
+        return jsonify(rubric_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500  # Handle errors
+
+    
+
 
 if __name__ == '__main__':
     app.run(debug=True)  # Start the Flask application
