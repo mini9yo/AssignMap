@@ -23,29 +23,29 @@ if (nextButton) {
     nextButton.addEventListener('click', () => {
         if (userType) {
             sessionStorage.setItem('userType', userType);
-            window.location.href = '/assignment_input'; // Redirect to assignment input page
+            window.location.href = '/assignment_input'; 
         } else {
-            alert('Please select a user type.'); // Alert if no user type is selected
+            displayErrorMessage('Please select a user type.');
         }
     });
 }
 
 if (backButton) {
     backButton.addEventListener('click', () => {
-        window.location.href = '/'; // Redirect to the index page
+        window.location.href = '/'; 
     });
 }
 
 function setActiveButton(activeButton) {
     if (teacherButton) {
-        teacherButton.classList.remove('active'); // Remove active class from teacher button
+        teacherButton.classList.remove('active'); 
     }
     
     if (studentButton) {
-        studentButton.classList.remove('active'); // Remove active class from student button
+        studentButton.classList.remove('active'); 
     }
     
     if (activeButton) {
-        activeButton.classList.add('active'); // Add active class to the clicked button
+        activeButton.classList.add('active'); 
     }
 }

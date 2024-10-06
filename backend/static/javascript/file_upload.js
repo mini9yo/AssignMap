@@ -17,7 +17,7 @@ if (nextButton) {
 
             reader.readAsText(file);
         } else {
-            alert('Please upload a file.');
+            displayErrorMessage('Please choose a file.');
         }
     });
 }

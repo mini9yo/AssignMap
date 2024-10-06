@@ -6,6 +6,7 @@ import json
 
 
 
+<<<<<<< HEAD
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -133,6 +134,8 @@ def test_db():
 
 
 
+=======
+>>>>>>> ef9cc30875d071ffe9346837d1cbca2874a506d5
 # Set your OpenAI API key
 client=OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
@@ -167,7 +170,7 @@ def task_display():
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.json  # Get the incoming JSON data
-    print("Received data:", data)  # Debugging output
+    #print("Received data:", data)  # Debugging output
 
     # Check for required fields
     if not data or 'user_type' not in data:
@@ -175,22 +178,13 @@ def generate():
 
     user_type = data.get('user_type')
     
-    if user_type not in ['teacher', 'student']:
-        return jsonify({'error': 'Invalid user_type. Must be "teacher" or "student"'}), 400
-
-    # Required fields for processing
-    required_fields = ['title', 'num_subtasks', 'assignment_description']
-    for field in required_fields:
-        if field not in data:
-            return jsonify({'error': f'Missing required field: {field}'}), 400
-    
     # Retrieve relevant data
     title = data.get('title')
     num_subtasks = data.get('num_subtasks')
     assignment_description = data.get('assignment_description')
 
     if user_type == 'teacher':
-        return generate_rubric(title, assignment_description)  # Process for teacher
+        return generate_rubric(title, num_subtasks, assignment_description)  # Process for teacher
     elif user_type == 'student':
         return generate_subtasks(title, num_subtasks, assignment_description)  # Process for student
 
@@ -223,6 +217,7 @@ def generate_subtasks(title, num_subtasks, assignment_description):
         "        \"Review and edit the final submission.\"\n"
         "    ]\n"
         "}\n"
+        "Must: after each verbal task text, add a space then an emoji that relates to the functionality of each task to make the list more engaging and visually appealing.\n"
         "Only provide the JSON output, without any additional text, no explanations, or other sentences.\n"
         f"The assignment description is as follows: {assignment_description}\n"
     )
@@ -239,123 +234,73 @@ def generate_subtasks(title, num_subtasks, assignment_description):
         json_output = response.choices[0].message.content.strip()  
         tasks_data = json.loads(json_output)
 
-        print("Generated subtasks:", tasks_data)  # Debugging output
+        #print("Generated subtasks:", tasks_data)  # Debugging output
+        
         # Return the parsed JSON as a response to the frontend
-        return jsonify(tasks_data)
+        return jsonify({'tasks': tasks_data['tasks']})
     except Exception as e:
         return jsonify({'error': str(e)}), 500  # Handle errors
     
     
-def generate_rubric(data):
-    data = request.json
-    
-    if not data or 'title' not in data or 'num_criteria' not in data or 'assignment_description' not in data:
-        return jsonify({'error': 'Missing required fields: title, num_criteria, or task_description'}), 400
-    
-    title = data.get('title')  # Get the task title
-    num_criteria = data.get('num_criteria')  # Get the number of criteria
-    task_description = data.get('assignment_description')  # Get the task description
-    user_defined_criteria = data.get('criteria', [])  # Get user-defined criteria if provided
-
-    # Construct the prompt for OpenAI API
-    if user_defined_criteria:
-        criteria_list = ', '.join(user_defined_criteria)
-        prompt = (
-            f"Please generate a rubric with the following criteria for the task named '{title}': {criteria_list}. "
-            "Format your response in JSON as follows:\n"
-            "{\n"
-            "    \"rubric\": [\n"
-            "        {\n"
-            "            \"criterion\": \"Criterion 1\",\n"
-            "            \"description\": \"Description of Criterion 1\",\n"
-            "            \"points\": \"Points for Criterion 1\"\n"
-            "        },\n"
-            "        {\n"
-            "            \"criterion\": \"Criterion 2\",\n"
-            "            \"description\": \"Description of Criterion 2\",\n"
-            "            \"points\": \"Points for Criterion 2\"\n"
-            "        }\n"
-            "    ]\n"
-            "}\n"
-            "For example, if the user requests 3 criteria, the output should look like this:\n"
-            "{\n"
-            "    \"rubric\": [\n"
-            "        {\n"
-            "            \"criterion\": \"Clarity\",\n"
-            "            \"description\": \"The task is clearly defined and easy to understand.\",\n"
-            "            \"points\": \"10\"\n"
-            "        },\n"
-            "        {\n"
-            "            \"criterion\": \"Completeness\",\n"
-            "            \"description\": \"All aspects of the task are covered.\",\n"
-            "            \"points\": \"10\"\n"
-            "        },\n"
-            "        {\n"
-            "            \"criterion\": \"Accuracy\",\n"
-            "            \"description\": \"The task is completed accurately.\",\n"
-            "            \"points\": \"10\"\n"
-            "        }\n"
-            "    ]\n"
-            "}\n"
-            "Only provide the JSON output, without any additional text, no explanations, or other sentences.\n"
-            f"The task description is as follows: {task_description}\n"
-        )
-    else:
-        prompt = (
-            f"Please generate a rubric with {num_criteria} criteria for the task named '{title}'. "
-            "Format your response in JSON as follows:\n"
-            "{\n"
-            "    \"rubric\": [\n"
-            "        {\n"
-            "            \"criterion\": \"Criterion 1\",\n"
-            "            \"description\": \"Description of Criterion 1\",\n"
-            "            \"points\": \"Points for Criterion 1\"\n"
-            "        },\n"
-            "        {\n"
-            "            \"criterion\": \"Criterion 2\",\n"
-            "            \"description\": \"Description of Criterion 2\",\n"
-            "            \"points\": \"Points for Criterion 2\"\n"
-            "        }\n"
-            "    ]\n"
-            "}\n"
-            "For example, if the user requests 3 criteria, the output should look like this:\n"
-            "{\n"
-            "    \"rubric\": [\n"
-            "        {\n"
-            "            \"criterion\": \"Clarity\",\n"
-            "            \"description\": \"The task is clearly defined and easy to understand.\",\n"
-            "            \"points\": \"10\"\n"
-            "        },\n"
-            "        {\n"
-            "            \"criterion\": \"Completeness\",\n"
-            "            \"description\": \"All aspects of the task are covered.\",\n"
-            "            \"points\": \"10\"\n"
-            "        },\n"
-            "        {\n"
-            "            \"criterion\": \"Accuracy\",\n"
-            "            \"description\": \"The task is completed accurately.\",\n"
-            "            \"points\": \"10\"\n"
-            "        }\n"
-            "    ]\n"
-            "}\n"
-            "Only provide the JSON output, without any additional text, no explanations, or other sentences.\n"
-            f"The task description is as follows: {task_description}\n"
-        )
+def generate_rubric(title, num_subtasks, assignment_description):
+    prompt = (
+        f"Please generate a rubric with number of {num_subtasks} criteria for the task named '{title}'. "
+        "Be aware that the max tokens for this task is 300.\n"
+        "It must contain {num_subtasks} number of criteria, each with a criterion, a description, and the points assigned to that criterion. "
+        "Format your response in JSON as follows:\n"
+        "{\n"
+        "    \"rubric\": [\n"
+        "        {\n"
+        "            \"criterion\": \"Criterion 1\",\n"
+        "            \"description\": \"Description of Criterion 1\",\n"
+        "            \"points\": \"Points for Criterion 1\"\n"
+        "        },\n"
+        "        {\n"
+        "            \"criterion\": \"Criterion 2\",\n"
+        "            \"description\": \"Description of Criterion 2\",\n"
+        "            \"points\": \"Points for Criterion 2\"\n"
+        "        }\n"
+        "    ]\n"
+        "}\n"
+        "For example, if the user requests 3 criteria, the output should look like this:\n"
+        "{\n"
+        "    \"rubric\": [\n"
+        "        {\n"
+        "            \"criterion\": \"Clarity\",\n"
+        "            \"description\": \"The task is clearly defined and easy to understand.\",\n"
+        "            \"points\": \"10\"\n"
+        "        },\n"
+        "        {\n"
+        "            \"criterion\": \"Completeness\",\n"
+        "            \"description\": \"All aspects of the task are covered.\",\n"
+        "            \"points\": \"10\"\n"
+        "        },\n"
+        "        {\n"
+        "            \"criterion\": \"Accuracy\",\n"
+        "            \"description\": \"The task is completed accurately.\",\n"
+        "            \"points\": \"10\"\n"
+        "        }\n"
+        "    ]\n"
+        "}\n"
+        "All points should be added up to 100.\n"
+        "Only provide the JSON output, without any additional text, no explanations, or other sentences.\n"
+        f"The task description is as follows: {assignment_description}\n"
+    )
 
     try:
         # Call OpenAI API
         response = client.chat.completions.create(
             model='gpt-3.5-turbo',
             messages=[{"role": "user", "content": prompt}],
-            max_tokens=150
-        )
-
+            max_tokens=300
+        ) 
         # Extract and parse the JSON output from the API response
-        json_output = response.choices[0].message.content.strip()  
+        json_output = response.choices[0].message.content.strip() 
         rubric_data = json.loads(json_output)
 
+        print("Generated rubric:", rubric_data)  # Debugging output
         # Return the parsed JSON as a response to the frontend
-        return jsonify(rubric_data)
+        return jsonify({'rubric': rubric_data['rubric']})
     except Exception as e:
         return jsonify({'error': str(e)}), 500  # Handle errors
 
