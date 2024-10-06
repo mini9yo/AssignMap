@@ -93,6 +93,23 @@ h1 {
     background-color: #31b0d5; /* Darker shade on hover */
 }
 
+/* user_type.html styles */
+#student-button, #teacher-button {
+    background-color: #f0f8ff; /* Button color */
+    color:Black; /* Text color */
+    padding: 15px; /* No border */
+    border-radius: 8px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer on hover */
+}
+#student-button:hover, #teacher-button:hover {
+    background-color: #c8edff; /* Lighter shade on hover */
+}
+
+#student-button.active, #teacher-button.active {
+    background-color: #5bc0de; /* Active button color */
+    color: white; /* Active text color */
+}
 
 /* assingnment_input.html styles */
 
