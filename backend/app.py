@@ -5,11 +5,11 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import json
 
-
 # Load environment variables from the .env file
 load_dotenv()
 app = Flask(__name__)
-CORS(app)  # Enable Cross-Origin Resource Sharing
+CORS(app, resources={r"/generate": {"origins": "http://localhost:8000"}})
+  # Enable Cross-Origin Resource Sharing
 
 # Set your OpenAI API key
 client=OpenAI(
@@ -21,39 +21,38 @@ client=OpenAI(
 @app.route('/generate', methods=['POST'])
 
 def generate():
-    data = request.json
-    
+    data = request.json  # Get the incoming JSON data
+    print("Received data:", data)  # Debugging output
+
+    # Check for required fields
     if not data or 'user_type' not in data:
         return jsonify({'error': 'Missing required field: user_type'}), 400
-    
+
     user_type = data.get('user_type')
     
     if user_type not in ['teacher', 'student']:
         return jsonify({'error': 'Invalid user_type. Must be "teacher" or "student"'}), 400
-    
-    if 'file_path' not in data:
-        return jsonify({'error': 'Missing required field: file_path'}), 400
-    
-    file_path = data.get('file_path')
-    file_content = data.get('user_type')
 
+    # Required fields for processing
+    required_fields = ['title', 'num_subtasks', 'assignment_description']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({'error': f'Missing required field: {field}'}), 400
     
+    # Retrieve relevant data
+    title = data.get('title')
+    num_subtasks = data.get('num_subtasks')
+    assignment_description = data.get('assignment_description')
+
     if user_type == 'teacher':
-        return generate_rubric(file_content)
+        return generate_rubric(title, assignment_description)  # Process for teacher
     elif user_type == 'student':
-        return generate_subtasks(file_content)
+        return generate_subtasks(title, num_subtasks, assignment_description)  # Process for student
+
+    return jsonify({'error': 'Invalid request'}), 400  # Fallback error handling
 
 
-def generate_subtasks(data):
-    data = request.json
-    
-    if not data or 'title' not in data or 'num_subtasks' not in data or 'assignment_description' not in data:
-        return jsonify({'error': 'Missing required fields: title, num_subtasks, or assignment_description'}), 400
-    
-    title = data.get('title')  # Get the assignment title
-    num_subtasks = data.get('num_subtasks')  # Get the number of subtasks
-    assignment_description = data.get('assignment_description')  # Get the assignment description
-
+def generate_subtasks(title, num_subtasks, assignment_description):
     # Construct the prompt for OpenAI API
     prompt = (
         f"Please generate a list of {num_subtasks} subtasks for the assignment named '{title}' to tackle the assignment efficiently. "
