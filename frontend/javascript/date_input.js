@@ -42,39 +42,22 @@ nextButton.addEventListener('click', () => {
     const userType = sessionStorage.getItem('userType');
     const assignmentTitle = sessionStorage.getItem('assignmentTitle');
     const courseName = sessionStorage.getItem('courseName');
-    const fileContent = sessionStorage.getItem('fileContent'); // Retrieve file content
+    const assignmentDescription = sessionStorage.getItem('assignmentDescription'); // Retrieve file content
+
+    console.log('User Type:', userType);
+    console.log('Assignment Title:', assignmentTitle);
+    console.log('Course Name:', courseName);
+    console.log('Assignment Description:', assignmentDescription);
 
     const data = {
         user_type: userType,
         title: assignmentTitle,
         course_name: courseName,
-        start_date: startDate,
-        due_date: dueDate,
         num_subtasks: numSubtasksInt,
-        file_content: fileContent // Include file content in the data object
+        assignment_description: assignmentDescription // Include file content in the data object
     };
 
-    fetch('http://localhost:5000/generate', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(responseData => {
-        console.log('Success:', responseData);
-        window.location.href = 'task_display.html';
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('There was a problem sending the data.');
-    });
+    sendData(data);
 });
 
 backButton.addEventListener('click', () => {

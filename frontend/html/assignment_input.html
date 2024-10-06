@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>User Type</title>
+    <link rel="stylesheet" href="../style.css">
+    <title>Assignment Input</title>
 </head>
 <body>
     <header>
@@ -13,16 +13,16 @@
     </header>
     <div class="progress-indicators">
         <div class="circle active"></div>
-        <div class="circle"></div>
+        <div class="circle active"></div>
         <div class="circle"></div>
         <div class="circle"></div>
     </div>
     <main>
         <div class="mainofmain">
-            <h2 class="step">1. Are you a ...</h2>
+            <h2 class= "step">2. Provide the name of the Assignment</h2>
             <div class="form-container">
-                <input type="button" id="teacher-button" value="teacher" required>
-                <input type="button" id="student-button" value="student" required>
+                <input type="text" id="assignment-title" placeholder="Assignment Title" required>
+                <input type="text" id="course-name" placeholder="Course Name" required>
             </div>
         </div>
     </main>
@@ -30,6 +30,6 @@
         <button id="back-button">Back</button>
         <button id="next-button">Next</button>
     </footer>
-    <script src="javascript/user_type.js"></script>
+    <script src="../javascript/assignment_input.js"></script>
 </body>
 </html>

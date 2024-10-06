@@ -10,8 +10,8 @@ if (nextButton) {
             const reader = new FileReader();
 
             reader.onload = () => {
-                const fileContent = reader.result;
-                sessionStorage.setItem('fileContent', fileContent);
+                const assignmentDescription = reader.result;
+                sessionStorage.setItem('assignmentDescription', assignmentDescription);
                 window.location.href = 'date_input.html';
             };
 
