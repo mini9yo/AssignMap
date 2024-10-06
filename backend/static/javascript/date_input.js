@@ -1,75 +1,96 @@
-const nextButton = document.getElementById('next-button');
-const backButton = document.getElementById('back-button');
 const startDateInput = document.getElementById('start-date');
 const dueDateInput = document.getElementById('due-date');
 const numSubtasksInput = document.getElementById('num-subtasks');
+const nextButton = document.getElementById('next-button');
+const backButton = document.getElementById('back-button');
 
-nextButton.addEventListener('click', () => {
-    const startDate = startDateInput.value;
-    const dueDate = dueDateInput.value;
-    const numSubtasks = numSubtasksInput.value;
-
-    if (!startDate || !dueDate || !numSubtasks) {
-        alert('Please fill in all fields.');
-        return;
-    }
-
-    const numSubtasksInt = parseInt(numSubtasks, 10);
-    if (!Number.isInteger(numSubtasksInt) || numSubtasksInt < 1) {
-        alert('Please enter a valid integer greater than 0 for the number of subtasks.');
-        numSubtasksInput.value = '';
-        return;
-    }
-
-    const today = new Date().setHours(0, 0, 0, 0);
-    const startDateObj = new Date(startDate);
-    const dueDateObj = new Date(dueDate);
-
-    if (startDateObj < today || dueDateObj < today) {
-        alert('Start and due dates cannot be in the past.');
-        startDateInput.value = '';
-        dueDateInput.value = '';
-        return;
-    }
-
-    if (startDateObj > dueDateObj) {
-        alert('Start date cannot be later than the due date.');
-        startDateInput.value = '';
-        dueDateInput.value = '';
-        return;
-    }
-
+document.addEventListener("DOMContentLoaded", () => {
     const userType = sessionStorage.getItem('userType');
-    const assignmentTitle = sessionStorage.getItem('assignmentTitle');
-    const courseName = sessionStorage.getItem('courseName');
-    const assignmentDescription = sessionStorage.getItem('assignmentDescription'); // Retrieve file content
+    const numSubtasksLabel = document.querySelector('label[for="num-subtasks"]');
 
-    console.log('User Type:', userType);
-    console.log('Assignment Title:', assignmentTitle);
-    console.log('Course Name:', courseName);
-    console.log('Assignment Description:', assignmentDescription);
+    // Change label text based on user type
+    if (userType === 'teacher') {
+        numSubtasksLabel.textContent = 'Number of Criteria:';
+    } else {
+        numSubtasksLabel.textContent = 'Number of Subtasks:';
+    }
 
-    const data = {
-        user_type: userType,
-        title: assignmentTitle,
-        num_subtasks: numSubtasksInt,
-        assignment_description: assignmentDescription // Include file content in the data object
-    };
+    nextButton.addEventListener('click', () => {
+        const startDate = startDateInput.value;
+        const dueDate = dueDateInput.value;
+        const numSubtasks = numSubtasksInput.value;
 
-    sendData(data);
-});
+        // Validation checks
+        if (!startDate || !dueDate || !numSubtasks) {
+            displayErrorMessage('Please fill out all fields.');
+            return;
+        }
 
-backButton.addEventListener('click', () => {
-    window.location.href = '/file_upload'; // Redirect to file upload page
+        const numSubtasksInt = parseInt(numSubtasks, 10);
+        if (!Number.isInteger(numSubtasksInt) || numSubtasksInt < 1) {
+            displayErrorMessage('Please enter a valid integer greater than 0 for the number of subtasks.');
+            numSubtasksInput.value = '';
+            return;
+        } else if (userType === 'student' && numSubtasksInt > 10) {
+            displayErrorMessage('Please enter a valid integer less than or equal to 10 for the number of subtasks.');
+            numSubtasksInput.value = '';
+            return;
+        } else if (userType === 'teacher' && numSubtasksInt > 7) { // Adjusted because of the max token in OpenAI
+            displayErrorMessage('Please enter a valid integer less than or equal to 7 for the number of criteria.');
+            numSubtasksInput.value = '';
+            return;
+        }
+
+        const today = new Date().setHours(0, 0, 0, 0);
+        const startDateObj = new Date(startDate);
+        const dueDateObj = new Date(dueDate);
+
+        startDateObj.setDate(startDateObj.getDate() + 1); // Adjust for timezone offset
+
+        // Validation for start and due dates
+        if (startDateObj < today || dueDateObj < today) {
+            displayErrorMessage('Start and due dates must be today or later.');
+            startDateInput.value = '';
+            dueDateInput.value = '';
+            return;
+        }
+
+        if (startDateObj > dueDateObj) {
+            displayErrorMessage('Due date must be after the start date.');
+            startDateInput.value = '';
+            dueDateInput.value = '';
+            return;
+        }
+
+        sessionStorage.setItem('startDate', startDate);
+        sessionStorage.setItem('dueDate', dueDate);
+
+        const assignmentTitle = sessionStorage.getItem('assignmentTitle');
+        const assignmentDescription = sessionStorage.getItem('assignmentDescription');
+
+        // data to send to the backend
+        const data = {
+            user_type: userType,
+            title: assignmentTitle,
+            num_subtasks: numSubtasksInt,
+            assignment_description: assignmentDescription
+        };
+
+        sendData(data);
+    });
+
+    backButton.addEventListener('click', () => {
+        window.location.href = '/file_upload'; 
+    });
 });
 
 // Function to send data to the backend
 async function sendData(data) {
     try {
-        const response = await fetch('/generate', { // Relative URL now
+        const response = await fetch('/generate', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json', // Specify content type
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
         });
@@ -81,9 +102,16 @@ async function sendData(data) {
         const responseData = await response.json();
         console.log('Success:', responseData);
 
-        window.location.href = '/task_display'; // Redirect to the task display page after successful submission
+        // Store tasks or rubric in sessionStorage based on user type
+        if (data.user_type === 'teacher') {
+            sessionStorage.setItem('rubric', JSON.stringify(responseData.rubric || []));
+        } else {
+            sessionStorage.setItem('generatedTasks', JSON.stringify(responseData.tasks || []));
+        }
+
+        window.location.href = '/task_display'; 
     } catch (error) {
         console.error('Error:', error);
-        alert('There was a problem sending the data.');
+        displayErrorMessage('An error occurred. Please try again.');
     }
 }

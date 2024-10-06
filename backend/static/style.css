@@ -1,13 +1,11 @@
-/* Global styles */
-
 body {
-    height: 100vh; /* Full height of the viewport */
-    margin: 0; /* Remove default margins */
-    padding: 0; /* Remove default padding */
-    font-family: Arial, sans-serif; /* Use a consistent font */
-    background-color: #f0f8ff; /* Light background color */
-    display: flex; /* Use flexbox for the body */
-    flex-direction: column; /* Stack elements vertically */
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Mono', monospace;
+    background-color: #f0f8ff;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -15,59 +13,67 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    background-color: #ffffff; /* White background for header */
+    background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     height: 40px;
+}
+
+.logo img {
+    margin: 30px;
+    max-width: 100%;
+    height: auto;
+    max-height: 85px;
+    border-radius: 8px;
 }
 
 footer {
     display: flex;
     justify-content: space-between;
-    padding: 20px; /* Space above and below the button */
-    background-color: #ffffff; /* White footer */
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Shadow on top */
-}
-
-.logo {
-    font-weight: bold;
-    font-size: 24px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
     font-size: 28px;
 }
 
+button {
+    font-family: 'Roboto Mono', monospace;
+}
+
 #next-button, #back-button {
-    background-color: #5bc0de; /* Button color */
-    color: white; /* Text color */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    padding: 10px 20px; /* Padding inside the button */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Pointer on hover */
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 120px;
 }
 
 #next-button {
-    margin-right: 40px; /* Space between buttons */
+    margin-right: 7%;
 }
 
 #next-button:hover {
-    background-color: #31b0d5; /* Darker shade on hover */
+    background-color: #31b0d5;
 }
 
 #back-button {
-    background-color: #d6d6d6; /* Light grey background for back button */
-    margin-left: 40px;
+    background-color: #d6d6d6;
+    margin-left: 7%;
 }
 
 #back-button:hover {
-    background-color: #b0b0b0; /* Darker shade on hover */
+    background-color: #b0b0b0;
 }
 
 /* index.html styles */
 
 .welcome-message {
-    background-color: #e6f7ff; /* Light blue background for welcome message */
+    background-color: #e6f7ff;
     border-radius: 8px;
     padding: 40px;
     text-align: center;
@@ -75,14 +81,14 @@ h1 {
 }
 
 .spaced-text {
-    line-height: 150%; /* Adjust line spacing as needed */
+    line-height: 150%;
 }
 
 #generate-button {
-    background-color: #5bc0de; /* Button color */
+    background-color: #5bc0de;
     color: white;
     border: none;
-    margin-top: 10px;
+    margin-top: 30px;
     border-radius: 4px;
     padding: 10px 20px;
     font-size: 16px;
@@ -90,25 +96,26 @@ h1 {
 }
 
 #generate-button:hover {
-    background-color: #31b0d5; /* Darker shade on hover */
+    background-color: #31b0d5;
 }
 
 /* user_type.html styles */
 #student-button, #teacher-button {
-    background-color: #f0f8ff; /* Button color */
-    color:Black; /* Text color */
-    padding: 15px; /* No border */
-    border-radius: 8px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Pointer on hover */
+    background-color: #f0f8ff;
+    color: black;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
 }
+
 #student-button:hover, #teacher-button:hover {
-    background-color: #c8edff; /* Lighter shade on hover */
+    background-color: #c8edff;
 }
 
 #student-button.active, #teacher-button.active {
-    background-color: #5bc0de; /* Active button color */
-    color: white; /* Active text color */
+    background-color: #5bc0de;
+    color: white;
 }
 
 /* assingnment_input.html styles */
@@ -121,83 +128,95 @@ h1 {
 }
 
 .circle {
-    width: 40px; /* Circle size */
-    height: 40px; /* Circle size */
-    border-radius: 50%; /* Make it circular */
-    background-color: #ccc; /* Default color for inactive circles */
-    margin: 0 30px; /* Spacing between circles */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 30px;
 }
 
 .circle.active {
-    background-color: #5bc0de; /* Color for the active circle */
+    background-color: #5bc0de;
 }
 
 main {
     display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center items vertically */
-    flex-direction: column; /* Stack children vertically */
-    height: 100%; /* Full height */
-    width: 100%; /* Full width */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
 }
 
 .mainofmain {
-    background-color: #c8edff; /* Light blue background */
-    width: 100%; /* Full width */
-    height: 65%; /* Full height */
+    background-color: #c8edff;
+    width: 100%;
+    height: 65%;
     padding-bottom: 90px;
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center align items */
+    flex-direction: column;
+    align-items: center;
     margin-top: -120px;
 }
 
 .step {
-    margin: 30px; /* Space below the heading */
+    margin: 30px;
 }
 
 .form-container {
-    background-color: lightgrey; /* Light grey background for the form */
-    border-radius: 8px; /* Rounded corners */
-    padding: 20px; /* Padding inside the container */
-    text-align: center; /* Center text */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow */
-    width: 400px; /* Fixed width */
-    height: 200px; /* Fixed height */
-    display: flex; 
-    flex-direction: column; /* Stack children vertically */
-    justify-content: center; /* Center content vertically */
-    overflow: hidden; /* Hide overflow content */
+    background-color: lightgrey;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
 }
 
 input {
-    display: block; /* Make inputs block elements */
-    margin: 15px auto; /* Center align inputs with margin */
-    padding: 20px; /* Padding inside inputs */
-    border: 1px solid #ccc; /* Border color */
-    border-radius: 8px; /* Rounded corners */
-    width: 80%; /* Width of the input fields */
-    font-size: 16px; /* Font size */
+    font-family: 'Roboto Mono', monospace;
+    display: block;
+    margin: 15px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 80%;
+    font-size: 16px;
 }
 
-/* file_upload.html styles */
+#assignment-title, #course-name {
+    border-radius: 8px;
+}
+
 .upload-box {
-    text-align: center; /* Center align content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: white;
+    border-radius: 8px;
+    padding: 20px;
 }
 
 .upload-label {
-    display: inline-block; /* Allow padding and margin */
-    padding: 20px; /* Space around the label */
-    background-color: white; /* Background color of the label */
-    border-radius: 8px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.upload-content {
+    display: flex;
+    align-items: center;
 }
 
 .file-icon {
-    width: 40px; /* Set icon size */
-    height: 40px; /* Set icon size */
-    margin-right: 10px; /* Space between icon and text */
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
 }
 
 /* Hide the actual file input */
@@ -209,49 +228,77 @@ input {
 /* date_input.html styles */
 
 .input-group {
-    display: flex; /* Align label and input in a row */
-    align-items: center; /* Center vertically */
+    display: flex;
+    align-items: center;
 }
 
 label {
-    width: 120px; /* Fixed width for label */
-    text-align: left; /* Align text to the left */
-    font-weight: bold; /* Bold font for emphasis */
-    padding-right: 10px; /* Space between label and input */
+    width: 120px;
+    text-align: left;
+    font-weight: bold;
+    padding-right: 10px;
 }
 
 input {
-    display: block; /* Make inputs block elements */
-    padding: 10px; /* Padding inside inputs */
-    border: 1px solid #ccc; /* Border color */
-    border-radius: 4px; /* Rounded corners */
-    width: 60%; /* Adjusted width for inputs */
-    max-width: 250px; /* Maximum width for inputs */
+    display: block;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 60%;
+    max-width: 250px;
 }
 
 
 /* Task Display styles */
+
 .task-container {
-    background-color: lightgrey; /* Background color for task container */
-    border-radius: 8px; /* Rounded corners */
-    padding: 20px; /* Padding around content */
-    text-align: center; /* Center align text */
-    width: 80%; /* Set width */
-    max-width: 600px; /* Max width for larger screens */
-    margin: 20px auto; /* Center the container on the page */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
-    min-height: 500px; /* Minimum height for the task container */
+    background-color: lightgrey;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: left;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-height: 500px;
+    height: auto;
+    overflow-y: auto;
 }
 
-
-.tasks-list {
-    margin-top: 20px; /* Space above the task list */
+.task-box {
+    background-color: white;
+    padding: 14px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
+    text-align: left;
+    line-height: 1.4;
+    transition: box-shadow 0.3s ease;
+    overflow: hidden;
 }
 
-.task-item {
-    background-color: white; /* White background for each task */
-    padding: 10px; /* Padding inside each task item */
-    border: 1px solid #ccc; /* Border around each task */
-    border-radius: 4px; /* Rounded corners */
-    margin: 10px 0; /* Space between tasks */
-} 
+.task-box:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.error-message {
+    font-size: small;
+    background-color: #ffdddd;
+    color: #d8000c;
+    padding: 7px;
+    border: 1px solid #d8000c;
+    border-radius: 5px;
+    position: fixed;
+    bottom: 14%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    animation: fade-in 0.5s;
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

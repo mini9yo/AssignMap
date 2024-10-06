@@ -1,9 +1,3 @@
 Flask
-Flask-SQLAlchemy
-Flask-Login
 python-dotenv
 openai
-Werkzeug
-Jinja2
-itsdangerous
-blinker

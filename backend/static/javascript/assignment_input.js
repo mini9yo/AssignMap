@@ -14,15 +14,15 @@ if (nextButton) {
         if (assignmentTitle && courseName) {
             sessionStorage.setItem('assignmentTitle', assignmentTitle);
             sessionStorage.setItem('courseName', courseName);
-            window.location.href = '/file_upload'; // Navigate to file upload page
+            window.location.href = '/file_upload';
         } else {
-            alert('Please fill in all fields.'); // Alert if fields are empty
+            displayErrorMessage('Please fill out all fields.'); 
         }
     });
 }
 
 if (backButton) {
     backButton.addEventListener('click', () => {
-        window.location.href = '/user_type'; // Navigate back to user type page
+        window.location.href = '/user_type';
     });
 }
