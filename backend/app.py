@@ -4,12 +4,11 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import json
 
-
-# Load environment variables from the .env file
+# Load environment variables from .env file
 load_dotenv()
 app = Flask(__name__)
 
-# Set your OpenAI API key
+# OpenAI API key
 client=OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
     organization= os.environ.get("ORG_KEY"),
@@ -42,30 +41,26 @@ def task_display():
 # Route to generate subtasks based on user input
 @app.route('/generate', methods=['POST'])
 def generate():
-    data = request.json  # Get the incoming JSON data
+    data = request.json
     #print("Received data:", data)  # Debugging output
 
-    # Check for required fields
     if not data or 'user_type' not in data:
         return jsonify({'error': 'Missing required field: user_type'}), 400
 
     user_type = data.get('user_type')
     
-    # Retrieve relevant data
     title = data.get('title')
     num_subtasks = data.get('num_subtasks')
     assignment_description = data.get('assignment_description')
 
     if user_type == 'teacher':
-        return generate_rubric(title, num_subtasks, assignment_description)  # Process for teacher
+        return generate_rubric(title, num_subtasks, assignment_description)
     elif user_type == 'student':
-        return generate_subtasks(title, num_subtasks, assignment_description)  # Process for student
+        return generate_subtasks(title, num_subtasks, assignment_description) 
 
-    return jsonify({'error': 'Invalid request'}), 400  # Fallback error handling
-
+    return jsonify({'error': 'Invalid request'}), 400 
 
 def generate_subtasks(title, num_subtasks, assignment_description):
-    # Construct the prompt for OpenAI API
     prompt = (
         f"Please generate a list of {num_subtasks} subtasks for the assignment named '{title}' to tackle the assignment efficiently. "
         "Format your response in JSON as follows:\n"
@@ -103,16 +98,14 @@ def generate_subtasks(title, num_subtasks, assignment_description):
             max_tokens=150
         )
 
-        # Extract and parse the JSON output from the API response
         json_output = response.choices[0].message.content.strip()  
         tasks_data = json.loads(json_output)
 
         #print("Generated subtasks:", tasks_data)  # Debugging output
         
-        # Return the parsed JSON as a response to the frontend
         return jsonify({'tasks': tasks_data['tasks']})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500  # Handle errors
+        return jsonify({'error': str(e)}), 500 
     
     
 def generate_rubric(title, num_subtasks, assignment_description):
@@ -167,16 +160,15 @@ def generate_rubric(title, num_subtasks, assignment_description):
             messages=[{"role": "user", "content": prompt}],
             max_tokens=300
         ) 
-        # Extract and parse the JSON output from the API response
+
         json_output = response.choices[0].message.content.strip() 
         rubric_data = json.loads(json_output)
 
-        print("Generated rubric:", rubric_data)  # Debugging output
-        # Return the parsed JSON as a response to the frontend
+        # print("Generated rubric:", rubric_data)  # Debugging output
         return jsonify({'rubric': rubric_data['rubric']})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500  # Handle errors
+        return jsonify({'error': str(e)}), 500
 
     
 if __name__ == '__main__':
-    app.run(debug=True)  # Start the Flask application
+    app.run(host='0.0.0.0', port=8000)  # Start the Flask application
