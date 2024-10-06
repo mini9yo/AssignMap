@@ -2,13 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>File Upload</title>
+    <title>Assignment Input</title>
 </head>
 <body>
-    <h2>2. Upload Assignment Description</h2>
-    <input type="file" id="assignment-file" accept=".txt" required>
-    <button id="upload-button">Upload</button>
+    <header>
+        <div class="logo">Logo</div>
+        <h1>Assignment Breakdown App</h1>
+    </header>
+    <div class="progress-indicators">
+        <div class="circle active"></div>
+        <div class="circle active"></div>
+        <div class="circle"></div>
+    </div>
+    <main>
+        <div class="mainofmain">
+            <h2 class="step">2. Provide an Assignment Description File</h2>
+            <div class="form-container">
+                <div class="upload-box">
+                    <label for="assignment-file" class="upload-label">
+                        <img src="../backend/static/5501726.png" alt="File Icon" class="file-icon">
+                        <span>Upload Assignment Description</span>
+                    </label>
+                    <input type="file" id="assignment-file" accept=".txt" required onchange="updateFileName()">
+                    <p id="file-name" style="margin-top: 10px; color: #666;">No file chosen</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <button id="back-button">Back</button>
+        <button id="next-button">Next</button>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>

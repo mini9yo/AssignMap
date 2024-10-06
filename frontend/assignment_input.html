@@ -2,14 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Assignment Input</title>
 </head>
 <body>
-    <h2>1. Enter Assignment Details</h2>
-    <input type="text" id="assignment-title" placeholder="Assignment Title" required>
-    <input type="number" id="num-subtasks" placeholder="Number of Subtasks" min="1" required>
-    <button id="next-button">Next</button>
+    <header>
+        <div class="logo">Logo</div>
+        <h1>Assignment Breakdown App</h1>
+    </header>
+    <div class="progress-indicators">
+        <div class="circle active"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+    <main>
+        <div class="mainofmain">
+            <h2 class= "step">1. Provide the name of the Assignment</h2>
+            <div class="form-container">
+                <input type="text" id="assignment-title" placeholder="Assignment Title" required>
+                <input type="text" id="course-name" placeholder="Course Name" required>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <button id="back-button">Back</button>
+        <button id="next-button">Next</button>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
