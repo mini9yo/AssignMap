@@ -1,0 +1,46 @@
+[Assignment] A3: Functional Requirement Specification
+Due Oct 15 by 11:59pm  Points 100 Submitting a file upload  Available until Oct 18 at 11:59pm
+As a computer science student, you have been getting frustrated with all the negative sentiment associated with generative AI and vowed to join an R&D team that develops AI for the benefits of society. You got your wish when you were recently hired by an educational software company, which intends to create a new division for developing a virtual AI instructor.
+
+In his book AI 2041 (2021), AI expert Kai-Fu Lee explains the benefits of incorporating AI instructor into education:
+
+Unlike human teachers, who have to consider the whole class, a virtual teacher can pay special attention to each student, whether it is fixing specific pronunciation problems, practicing multiplication, or writing essays. An AI teacher will notice what makes a student’s pupils dilate and what makes a student’s eyelids droop. It will deduce a way to teach geometry to make one student learn faster, even though that method may fail on a thousand other students. To a student who loves basketball, math problems could be rewritten by NLP in terms of the basketball domain. AI will give a different homework assignment to each student, based on his or her pace, ensuring a given student achieves a full mastery of a topic before moving to the next. In online classrooms, the use of customized virtual teachers and virtual students significantly improves students’ grades, as well as their engagement, as measured by actions such as asking good questions. (2021, p. 160-161)
+
+You have been assigned to their product management team of this new division, and you will join a few other colleagues in preparing the product requirement specification. It is a huge document and each person is responsible for specifying the requirement for one of the major features of the AI instructor product. Since you are a newbie and the company has a friendly working culture, you were given the choice to select the major feature to work on.
+
+Your team lead has identified the following major software modules for an AI instructor:
+
+Adaptive Learning: Every student is best suited to a certain style and pace of learning due to unique characters, upbringing, and strengths. An AI instructor should be able to dynamically adapt and adjust the content and difficulty of learning materials based on students’ individual progress.
+
+Personalized Feedback and Guidance: The AI instructor should provide personalized feedback, suggestions, and guidance to students throughout the learning process. Such a personalized learning experience can help students address their specific challenges. It can also help them identify and explore how to develop their unique gifts.
+
+Multimodal Content: The AI instructor should be able to deliver multimodal content. Depending on each student’s individual preferences and the specific content of learning materials, the best choice of digital formats could be a dynamic combination of text, video, audio, interactive simulations, or virtual/augmented reality.
+
+Real-time Monitoring and Intervention: The AI instructor should be able to continuously monitor student engagement, performance, and progress. A variety of schemes are possible, from intermittent quizzes to the analysis of sensory data of physical traits (eyes, facial expression, skin, pulse, etc.). Various alerts and notifications from this real-time monitoring would prompt the AI instructor to intervene and provide timely support or adjustment to the learning agenda.
+
+Interaction in Natural Language: The AI instructor should be able to interactive with students in natural language. It should have language fluency in multiple languages, allowing students to both learn in language that they can best understand the learning materials while exposing them to diverse language and cultures.
+
+Collaborative Learning: The AI instructor should be able to support collaborative learning activities. In other words, it should be able to connect with other personalized AI instructor to facilitate group discussions, peer-to-peer interactions, and project-based learning over a network. This module allows students to experience learning and working in a community of others.
+
+You can pick one of the above software modules to work on, or come up with your own software module of an AI instructor not covered above. You have been asked to write up detailed specifications of its features. Each feature specification should be sufficiently detailed that it could be used by a Quality Assurance (QA) team to test it. Typically, each feature should be broken down to at least one level of sub-features. The report should be three to four pages long (approximately 1200 words), not including the cover page.
+
+Guidelines
+Your report should include two sections: An overview section (300 to 400 words) that describes the module in paragraph forms, a functional specification of the module's features in a number list with multiple levels (2.1, 2.1.1, 2.1.2, etc.), and a non-functional specification of the module's constraints. 
+Please use this template Download template for your specification document (or create your own that follows a similar format). Make sure you fill in the cover page, update the header, the table of content, and the revision history. Note that FREQ stands for functional requirement, and NFREQ stands for non functional requirement, which is typically some system constraint.
+You may include one or two diagrams but note that there is a word-count as well as a page-count. To put it another way, I won't accept a two-page submission that includes one and a half pages of diagrams.
+For your reference, I am including here a sample requirement document Download here a sample requirement document (an extract from a "historical artifact" of a project I worked on many years ago). The format is not exactly the same as the above template, but it should give a clearer idea on the level of details for each specification item. 
+Format
+Your submissions should be formatted as follows.
+
+A cover page
+Single spaced
+12 point font
+1.5 inch (3.8 cms) left and right margins
+Submission
+Submit your answers as a PDF file to Canvas, and also to Turnitin. Use class ID: 45052732 and enrollment key: Ethics2024. 
+
+Academic Honesty
+This assignment - like all the other assignments - must be your work. Do not copy descriptions from textbooks, websites or your fellow students. This includes "adapting" other sources by re-writing passages by finding synonyms for some words and moving parts of sentences around (commonly known as patch writing).
+
+Reference
+Lee, K.-F., & Chen, Q. (2021). AI 2041 (First edition). Currency.

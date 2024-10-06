@@ -1,0 +1,22 @@
+CMPT310: Summer 2024: 
+Assignment 2: Adversarial search: TicTacToa game
+
+In this assignment various algorithms for adversarial search are implemented. The MinMax plain version is already implemented. 
+There are 3 other searches to implement: MinMax with Cutoff depth (uses Evaluation function at set depth), AlphaBeta, AlphaBeta with depth cutoff, 
+and MonteCarlo Tree search.
+There are various areas in games.py and montecarlo.py that you must implement. Each part has grade which is shown in the print statement just above it.
+
+1)You need to come up with a smart Evaluation function for the game. It has to give highest value to the board configuration which
+has the most potential for a win by the player. Find out what charactersics in a board current layout are more promising and then try to 
+quantify them. There are many ways to achieve this, use your game skill, creativity, and time. There are already a few suggestion in the function in game.py. 
+
+2) There is a timer and a depth GUI for limiting search time and limit depth search. Timer is used for iterative deepening. So when you set timer, the depth setting is not used in the code. When timer or depth is set to -1 it means no time limit and no depth limit.
+
+3) Once done, you should be able to play 3 x 3 tictactoe for any of the searches with no time or depth limit under 5 second time per play. For 4 x 4 and 5 x 5 you will need timer be set to 4 to get the same time per play.
+ 
+
+4) There is a 5 point bonus if you hand it a discussion report of at least 1 full page discussing and answering the following questions:
+   1- You will notice that often the time limit set at GUI is surpassed in runtime. Why do you think it is?  
+   2- Any suggestion how to remedy that so we can have a time limit that is respected by the runtime?
+   
+
