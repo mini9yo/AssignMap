@@ -3,6 +3,9 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 import json
+
+
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -136,44 +139,65 @@ client=OpenAI(
     organization= os.environ.get("ORG_KEY"),
     project= os.environ.get("PROJ_KEY"))
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/user_type')
+def user_type():
+    return render_template('user_type.html')
+
+@app.route('/assignment_input')
+def assignment_input():
+    return render_template('assignment_input.html')
+
+@app.route('/file_upload')
+def file_upload():
+    return render_template('file_upload.html')
+
+@app.route('/date_input')
+def date_input():
+    return render_template('date_input.html')
+
+@app.route('/task_display')
+def task_display():
+    return render_template('task_display.html')
+
 # Route to generate subtasks based on user input
 @app.route('/generate', methods=['POST'])
-
-
 def generate():
-    data = request.json
-    
+    data = request.json  # Get the incoming JSON data
+    print("Received data:", data)  # Debugging output
+
+    # Check for required fields
     if not data or 'user_type' not in data:
         return jsonify({'error': 'Missing required field: user_type'}), 400
-    
+
     user_type = data.get('user_type')
     
     if user_type not in ['teacher', 'student']:
         return jsonify({'error': 'Invalid user_type. Must be "teacher" or "student"'}), 400
-    
-    if 'file_path' not in data:
-        return jsonify({'error': 'Missing required field: file_path'}), 400
-    
-    file_path = data.get('file_path')
-    file_content = data.get('user_type')
 
+    # Required fields for processing
+    required_fields = ['title', 'num_subtasks', 'assignment_description']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({'error': f'Missing required field: {field}'}), 400
     
+    # Retrieve relevant data
+    title = data.get('title')
+    num_subtasks = data.get('num_subtasks')
+    assignment_description = data.get('assignment_description')
+
     if user_type == 'teacher':
-        return generate_rubric(file_content)
+        return generate_rubric(title, assignment_description)  # Process for teacher
     elif user_type == 'student':
-        return generate_subtasks(file_content)
+        return generate_subtasks(title, num_subtasks, assignment_description)  # Process for student
+
+    return jsonify({'error': 'Invalid request'}), 400  # Fallback error handling
 
 
-def generate_subtasks(data):
-    data = request.json
-    
-    if not data or 'title' not in data or 'num_subtasks' not in data or 'assignment_description' not in data:
-        return jsonify({'error': 'Missing required fields: title, num_subtasks, or assignment_description'}), 400
-    
-    title = data.get('title')  # Get the assignment title
-    num_subtasks = data.get('num_subtasks')  # Get the number of subtasks
-    assignment_description = data.get('assignment_description')  # Get the assignment description
-
+def generate_subtasks(title, num_subtasks, assignment_description):
     # Construct the prompt for OpenAI API
     prompt = (
         f"Please generate a list of {num_subtasks} subtasks for the assignment named '{title}' to tackle the assignment efficiently. "
@@ -215,6 +239,7 @@ def generate_subtasks(data):
         json_output = response.choices[0].message.content.strip()  
         tasks_data = json.loads(json_output)
 
+        print("Generated subtasks:", tasks_data)  # Debugging output
         # Return the parsed JSON as a response to the frontend
         return jsonify(tasks_data)
     except Exception as e:
@@ -335,7 +360,5 @@ def generate_rubric(data):
         return jsonify({'error': str(e)}), 500  # Handle errors
 
     
-
-
 if __name__ == '__main__':
     app.run(debug=True)  # Start the Flask application
