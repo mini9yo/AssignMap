@@ -60,7 +60,7 @@ nextButton.addEventListener('click', () => {
 });
 
 backButton.addEventListener('click', () => {
-    window.location.href = 'file_upload.html'; // Redirect to file upload page
+    window.location.href = '/file_upload'; // Redirect to file upload page
 });
 
 // Function to send data to the backend
@@ -81,7 +81,7 @@ async function sendData(data) {
         const responseData = await response.json();
         console.log('Success:', responseData);
 
-        window.location.href = 'task_display.html'; // Redirect to the task display page after successful submission
+        window.location.href = '/task_display'; // Redirect to the task display page after successful submission
     } catch (error) {
         console.error('Error:', error);
         alert('There was a problem sending the data.');
