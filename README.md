@@ -7,11 +7,12 @@ StormHacks 2024
 AssignMap, "Assignment" + "GuidMap," is an AI-powered assignment subtask and rubric generator designed to enhance the educational experience by helping students and teachers efficiently manage their assignments. Using OpenAI's API, AssignMap creates customized subtasks and rubrics to fit the unique needs of each assignment. By combining elements of social good and artificial intelligence, AssignMap offers practical educational tools that make learning and teaching more effective and enjoyable.
 
 ## Why did we create AssignMap?
-In today's fast-paced educational environment, students often struggle with managing multiple assignments and understanding their requirements. AssignMap addresses these challenges by:
+In today's fast-paced educational environment, students and teachers both often struggle with managing multiple assignments and understanding their requirements. AssignMap addresses these challenges by:
 
 - **Enhancing Task Management**: Break down assignments into manageable subtasks.
 - **Providing Clear Guidelines**: Generate rubrics that clarify assessment criteria.
 - **Supporting Diverse Learning Styles**: Help students organize their work in a way that suits their learning preferences.
+
 
 ## How to Use AssignMap
 
